@@ -1,0 +1,56 @@
+.TopNav {
+  position: fixed;
+  height: 64px;
+  top: 0;
+  right: 0;
+  left: 0;
+  padding-left: 10vw;
+  padding-right: 10vw;
+  display: flex;
+  align-items: center;
+  nav {
+    display: flex;
+    width: 100%;
+  }
+  Button {
+    border: none;
+    cursor: pointer;
+  }
+}
+
+.navigationButtons {
+  flex: 1;
+  display: flex;
+}
+
+.linkNav {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  a {
+    -webkit-app-region: no-drag;
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 6px;
+    padding: 6px 10px;
+    color: var(--color-text);
+    transition: 0.2s;
+    -webkit-user-drag: none;
+    margin-right: 12px;
+    margin-left: 12px;
+    &:hover {
+      text-decoration: none;
+      background: var(--color-secondary-bg-for-transparent);
+    }
+  }
+}
+
+.rightPart {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
