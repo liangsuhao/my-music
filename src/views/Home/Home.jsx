@@ -6,7 +6,6 @@ import { byAppleMusic } from '../../utils/staticData';
 function Home() {
   const [showPlaylistsByAppleMusic,setShowPlaylistsByAppleMusic] = useState(true);
 
-  console.log(byAppleMusic);
   return (
     <div className={style.homePage}>
       {showPlaylistsByAppleMusic &&
