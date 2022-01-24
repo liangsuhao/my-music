@@ -16,10 +16,10 @@ const PicBlock = (props) => {
 
   return (
     <div className={style.PicBlock} className={coverHover ? "coverHover" : ""} onClick={() => {props.clickCoverToPlay ? play(): goTo()}} onMouseOver={()=>setFocus(true)} onMouseLeave={()=>setFocus(false)}>
-      <div className="coverContainer">
+      <div className={style.coverContainer}>
         <div className="shadow">
           {
-            focus && 
+            // focus && 
             <button onClick={play()} className="playButton">
               <SvgIcon iconClass="play" width="24px" height='24px' />
             </button>

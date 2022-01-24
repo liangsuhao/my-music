@@ -1,5 +1,22 @@
 .PicBlock {
-  :global(.coverContainer) {
-    
+  
+}
+.coverContainer {
+  position: relative;
+  :global(.shadow) {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  img {
+    width: 100%;
+    border-radius: 0.75em;
+    user-select: none;
+    border: 1px solid rgba( 0, 0, 0, 0.4);
   }
 }
