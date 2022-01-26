@@ -5,9 +5,10 @@ import style  from "./PicBlock.module.scss";
 const PicBlock = (props) => {
   const [coverHover,setCoverHover] = useState(props.coverHover);
   const [focus,setFocus] = useState(false);
+  const [clickCoverToPlay,setClickCoverToPlay] = useState(props.coverHover ? true : false);
 
   const play = () => {
-
+    
   }
 
   const goTo = () => {
@@ -15,11 +16,11 @@ const PicBlock = (props) => {
   }
 
   return (
-    <div className={style.PicBlock} className={coverHover ? "coverHover" : ""} onClick={() => {props.clickCoverToPlay ? play(): goTo()}} onMouseOver={()=>setFocus(true)} onMouseLeave={()=>setFocus(false)}>
+    <div className={style.PicBlock} className={coverHover ? "coverHover" : ""} onClick={() => {clickCoverToPlay ? play(): goTo()}} onMouseOver={()=>setFocus(true)} onMouseLeave={()=>setFocus(false)}>
       <div className={style.coverContainer}>
         <div className="shadow">
           {
-            // focus && 
+            focus && 
             <button onClick={play()} className="playButton">
               <SvgIcon iconClass="play" width="24px" height='24px' />
             </button>

@@ -11,6 +11,29 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100%;
+
+    button {
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 50%;
+      background: rgba(255,255,255,0.14);
+      color: white;
+      backdrop-filter: blur(8px);
+      width: 22%;
+      height: 22%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: default;
+      transition: 0.2s;
+      &:hover {
+        background: rgba(255, 255, 255, 0.28);
+      }
+      &:active {
+        transform: scale(0.94);
+      }
+    }
   }
 
   img {
