@@ -1,18 +1,33 @@
 import React, {useState} from "react";
+import { connect } from "react-redux";
 import SvgIcon from "../SvgIcon/SvgIcon";
 import style  from "./PicBlock.module.scss";
 
-const PicBlock = (props) => {
+const mapStateToProps = state => {
+  return state;
+}
+
+const mapDispatchToProps = dispatch => {
+  return {};
+}
+
+let PicBlock = (props) => {
   const [coverHover,setCoverHover] = useState(props.coverHover);
   const [focus,setFocus] = useState(false);
   const [clickCoverToPlay,setClickCoverToPlay] = useState(props.coverHover ? true : false);
 
   const play = () => {
-    
+    const player = props.player;
+    const playActions = {
+      album: player.playAlbumByID,
+      playlist: player.playPlaylistByID,
+      artist: player.playArtistByID,
+    };
+    playActions[props.type].bind(player)(props.id);
   }
 
   const goTo = () => {
-
+    
   }
 
   return (
@@ -21,7 +36,7 @@ const PicBlock = (props) => {
         <div className="shadow">
           {
             focus && 
-            <button onClick={play()} className="playButton">
+            <button onClick={play} className="playButton">
               <SvgIcon iconClass="play" width="24px" height='24px' />
             </button>
           }
@@ -32,5 +47,6 @@ const PicBlock = (props) => {
     </div>
   )
 }
+PicBlock = connect(mapStateToProps,mapDispatchToProps)(PicBlock);
 
 export default PicBlock;

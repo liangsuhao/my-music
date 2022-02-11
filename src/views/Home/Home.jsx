@@ -11,7 +11,7 @@ function Home() {
       {showPlaylistsByAppleMusic &&
         <div className={style.homeContent}>
           <div className={style.title}>by Apple Music</div>
-          <PicRow type="playList" items={byAppleMusic} sub-text="appleMusic" image-size="1024" />
+          <PicRow type="playlist" items={byAppleMusic} sub-text="appleMusic" image-size="1024" />
         </div>}
     </div> 
   )

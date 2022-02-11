@@ -7,7 +7,7 @@ import todoApp from './reducers'
 import "./assets/icons";
 import "./assets/css/global.scss";
 
-let store = createStore(todoApp);
+export let store = createStore(todoApp);
 
 ReactDOM.render(
   <React.StrictMode>
