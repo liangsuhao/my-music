@@ -388,7 +388,6 @@ export default class {
       `[debug][Player.js] playPlaylistByID 👉 id:${id} trackID:${trackID} noCache:${noCache}`
     );
     getPlaylistDetail(id, noCache).then(data => {
-      console.log(data)
       let trackIDs = data.playlist.trackIds.map(t => t.id);
       this.replacePlaylist(trackIDs, id, 'playlist', trackID);
     });
