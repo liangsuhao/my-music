@@ -6,6 +6,9 @@ import 'rc-slider/assets/index.css';
 import style from './Player.module.scss';
 import { set } from "lodash";
 import { resizeImage } from "../../utils/filter";
+import SVGIcon from "../../component/SvgIcon/SvgIcon";
+import ButtonIcon from "../../component/ButtonIcon/ButtonIcon";
+import player from "../../reducers/player";
 
 const mapStateToProps = state => {
   return state;
@@ -38,6 +41,22 @@ let Player = (props) => {
 
   }
 
+  const hasList = () => {
+
+  }
+
+  const goToList = () => {
+
+  }
+
+  const goToArtist = (id) => {
+
+  }
+
+  const goToNextTracksPage = () => {
+
+  }
+
   useEffect(()=>{
     if(!audioTimer.current) {
       audioTimer.current = setInterval(() => {
@@ -48,22 +67,44 @@ let Player = (props) => {
       }, 1000);
     }
   },[])
+  console.log(props.player)
 
   return (
     <div className={style.player}>
       <div className="progress-bar">
         <Slider value={playerProgress} onChange={changeProgress}/>
-        <div className="setting-bar">
-          <div className="setting-left">
+        <div className={style.settingBar}>
+          <div className={style.settingLeft}>
             <img
               src={currentTrack.al &&  resizeImage(currentTrack.al.picUrl,224)}
               onClick={goToAlbum}
             />
+            <div className={style.songsName}>
+              <div className={style.songsTitle} onClick={hasList() && goToList}>{ currentTrack.name }</div>
+              <div className={style.artists}>
+                {
+                  currentTrack.ar.map((ar,index)=>
+                  <span key={ar.id} onClick={ar.id && goToArtist(ar.id)}>
+                    <span className={ar.id}>{ar.name}</span>
+                    {(index !== currentTrack.ar.length - 1) && <span>, </span>}
+                  </span>
+                  )
+                }
+              </div>
+            </div>
+            <div className={style.likeButton}>
+                <SVGIcon iconClass="heart" width="16px" height="16px"></SVGIcon>
+            </div>
           </div>
-          <div className="setting-middle">
-
+          <div className={style.settingMiddle}>
+            <div className={style.middleContainer}>
+              <ButtonIcon content={<SVGIcon iconClass="previous" width="16px" height='16px'/>} onClick={props.player.playPrevTrack} />
+              {props.player.isPersonalFM && <ButtonIcon content={<SVGIcon iconClass="thumbs-down" width="16px" height='16px'/>} onClick={props.player.moveToFMTrash} />}
+              <ButtonIcon content={<SVGIcon iconClass={props.player.playing ? "pause" : "play"} width="20px" height='20px'/>} onClick={props.player.playOrPause} />
+              <ButtonIcon content={<SVGIcon iconClass="next" width="16px" height='16px'/>} onClick={props.player.playNextTrack} />
+            </div>
           </div>
-          <div className="setting-right">
+          <div className={style.settingRight}>
 
           </div>
         </div>

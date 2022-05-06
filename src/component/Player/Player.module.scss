@@ -11,4 +11,77 @@
   // background-color: rgba(255, 255, 255, 0.86);
   background-color: var(--color-navbar-bg);
   z-index: 100;
+
+   img {
+     height: 46px;
+     border-radius: 5px;
+     box-shadow: 0 6px 8px -2px rgba(0, 0, 0, 0.15);
+     cursor: pointer;
+     user-select: none;
+   }
+}
+
+.settingBar {
+  display: flex;
+  padding-left: 10vw;
+  padding-right: 10vw;
+}
+
+.settingLeft {
+  display: flex;
+  flex: 1;
+  align-items: center;
+}
+.settingMiddle {
+  flex: 1;
+  display: flex;
+}
+.settingRight {
+  flex: 1;
+  display: flex;
+}
+.songsName {
+  height: 46px;
+  margin-left: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.songsTitle {
+  font-weight: 600;
+  font-size: 16px;
+  opacity: 0.88;
+  color: var(--color-text);
+  margin-bottom: 4px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  word-break: break-all;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+.artists {
+  font-size: 12px;
+  opacity: 0.58;
+  color: var(--color-text);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  word-break: break-all;
+  span {
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+.likeButton {
+  margin-left: 16px;
+}
+
+.middleContainer {
+  display: flex;
 }

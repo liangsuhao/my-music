@@ -226,6 +226,46 @@ export default class {
     }, 1000);
   }
 
+  _getNextTrack() {
+    const next = this._reversed ? this.current - 1 : this.current + 1;
+
+    if (this._playNextList.length > 0) {
+      let trackID = this._playNextList.shift();
+      return [trackID, this.current];
+    }
+
+    // 循环模式开启，则重新播放当前模式下的相对的下一首
+    if (this.repeatMode === 'on') {
+      if (this._reversed && this.current === 0) {
+        // 倒序模式，当前歌曲是第一首，则重新播放列表最后一首
+        return [this.list[this.list.length - 1], this.list.length - 1];
+      } else if (this.list.length === this.current + 1) {
+        // 正序模式，当前歌曲是最后一首，则重新播放第一首
+        return [this.list[0], 0];
+      }
+    }
+
+    // 返回 [trackID, index]
+    return [this.list[next], next];
+  }
+  _getPrevTrack() {
+    const next = this._reversed ? this.current + 1 : this.current - 1;
+
+    // 循环模式开启，则重新播放当前模式下的相对的下一首
+    if (this.repeatMode === 'on') {
+      if (this._reversed && this.current === 0) {
+        // 倒序模式，当前歌曲是最后一首，则重新播放列表第一首
+        return [this.list[0], 0];
+      } else if (this.list.length === this.current + 1) {
+        // 正序模式，当前歌曲是第一首，则重新播放列表最后一首
+        return [this.list[this.list.length - 1], this.list.length - 1];
+      }
+    }
+
+    // 返回 [trackID, index]
+    return [this.list[next], next];
+  }
+
   _replaceCurrentTrack(
     id,
     autoplay = true,
@@ -495,27 +535,39 @@ export default class {
       });
     }
   }
-  // playOrPause() {
-  //   if (this._howler?.playing()) {
-  //     this.pause();
-  //   } else {
-  //     this.play();
-  //   }
-  // }
-  // seek(time = null) {
-  //   if (time !== null) {
-  //     this._howler?.seek(time);
-  //     if (this._playing)
-  //       this._playDiscordPresence(this._currentTrack, this.seek());
-  //   }
-  //   return this._howler === null ? 0 : this._howler.seek();
-  // }
-  // mute() {
-  //   if (this.volume === 0) {
-  //     this.volume = this._volumeBeforeMuted;
-  //   } else {
-  //     this._volumeBeforeMuted = this.volume;
-  //     this.volume = 0;
-  //   }
-  // }
+  playOrPause() {
+    if (this._howler?.playing()) {
+      this.pause();
+    } else {
+      this.play();
+    }
+  }
+  seek(time = null) {
+    if (time !== null) {
+      this._howler?.seek(time);
+      if (this._playing)
+        this._playDiscordPresence(this._currentTrack, this.seek());
+    }
+    return this._howler === null ? 0 : this._howler.seek();
+  }
+  mute() {
+    if (this.volume === 0) {
+      this.volume = this._volumeBeforeMuted;
+    } else {
+      this._volumeBeforeMuted = this.volume;
+      this.volume = 0;
+    }
+  }
+  playNextTrack() {
+    // TODO: 切换歌曲时增加加载中的状态
+    const [trackID, index] = this._getNextTrack();
+    if (trackID === undefined) {
+      this._howler?.stop();
+      this._playing = false;
+      return false;
+    }
+    this.current = index;
+    this._replaceCurrentTrack(trackID);
+    return true;
+  }
 }
