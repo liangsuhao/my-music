@@ -22,8 +22,8 @@ let Player = (props) => {
   const handler = (v) => {console.log(v);return v;}
   const audioTimer = useRef(null);
   const [playerProgress,setPlayerProgress] = useState(0);
-  const [currentTrack,setCurrentTrack] = useState(props.player.currentTrack);
-  // const playerValue = useMemo(()=>handler(props.player.progress),[props.player.progress]);
+  const [currentTrack,setCurrentTrack] = useState(props.player.instance.currentTrack);
+  // const playerValue = useMemo(()=>handler(props.player.instance.progress),[props.player.instance.progress]);
 
   const formatTrackTime = (value) => {
     if (!value) return '';
@@ -33,8 +33,8 @@ let Player = (props) => {
   }
 
   const changeProgress = (progress) => {
-    props.player._howler.seek(progress);
-    setPlayerProgress(props.player.progress);
+    props.player.instance._howler.seek(progress);
+    setPlayerProgress(props.player.instance.progress);
   }
 
   const goToAlbum = () => {
@@ -60,14 +60,15 @@ let Player = (props) => {
   useEffect(()=>{
     if(!audioTimer.current) {
       audioTimer.current = setInterval(() => {
-        if(props.player.playing) {
-          setPlayerProgress(props.player.progress);
-          console.log(props.player);
+        if(props.player.instance.playing) {
+          setPlayerProgress(props.player.instance.progress);
         }
       }, 1000);
     }
+    return () => {
+      clearInterval(audioTimer.current);
+    }
   },[])
-  console.log(props.player)
 
   return (
     <div className={style.player}>
@@ -98,10 +99,10 @@ let Player = (props) => {
           </div>
           <div className={style.settingMiddle}>
             <div className={style.middleContainer}>
-              <ButtonIcon content={<SVGIcon iconClass="previous" width="16px" height='16px'/>} onClick={props.player.playPrevTrack} />
-              {props.player.isPersonalFM && <ButtonIcon content={<SVGIcon iconClass="thumbs-down" width="16px" height='16px'/>} onClick={props.player.moveToFMTrash} />}
-              <ButtonIcon content={<SVGIcon iconClass={props.player.playing ? "pause" : "play"} width="20px" height='20px'/>} onClick={props.player.playOrPause} />
-              <ButtonIcon content={<SVGIcon iconClass="next" width="16px" height='16px'/>} onClick={props.player.playNextTrack} />
+              <ButtonIcon content={<SVGIcon iconClass="previous" width="16px" height='16px'/>} onClick={props.player.instance.playPrevTrack} />
+              {props.player.instance.isPersonalFM && <ButtonIcon content={<SVGIcon iconClass="thumbs-down" width="16px" height='16px'/>} onClick={()=>{props.player.instance.moveToFMTrash()}} />}
+              <ButtonIcon content={<SVGIcon iconClass={props.player.instance.playing ? "pause" : "play"} width="20px" height='20px'/>} onClick={()=>{props.player.instance.playOrPause()}} />
+              <ButtonIcon content={<SVGIcon iconClass="next" width="16px" height='16px'/>} onClick={props.player.instance.playNextTrack} />
             </div>
           </div>
           <div className={style.settingRight}>

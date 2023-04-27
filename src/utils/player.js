@@ -10,6 +10,9 @@ import { store } from '../index';
 // import { isAccountLoggedIn } from '../utils/auth';
 import { trackUpdateNowPlaying, trackScrobble } from '../api/lastfm';
 
+import { thePlayer3 } from '../reducers/player';
+import { updatePlayer } from '../action';
+
 const excludeSaveKeys = [
   '_playing',
   '_personalFMLoading',
@@ -209,11 +212,16 @@ export default class {
       this.personalFMTrack.id === this._personalFMNextTrack.id
     ) {
       personalFM().then(result => {
-        this.personalFMTrack = result.data[0];
+        this._personalFMTrack = result.data[0];
         this._personalFMNextTrack = result.data[1];
+        this.store.dispatch(updatePlayer());
         return this,this.personalFMTrack;
       })
     }
+  }
+
+  _setStore(store) {  //初始化store
+    this.store = store;
   }
 
   _setIntervals() {
@@ -511,12 +519,12 @@ export default class {
   //   }
   // }
 
-  // pause() {
-  //   this._howler?.pause();
-  //   this._playing = false;
-  //   document.title = 'YesPlayMusic';
-  //   this._pauseDiscordPresence(this._currentTrack);
-  // }
+  pause() {
+    this._howler?.pause();
+    this._playing = false;
+    document.title = 'YesPlayMusic';
+    // this._pauseDiscordPresence(this._currentTrack);    也是electron的
+  }
   play() {
     if (this._howler?.playing()) return;
     this._howler?.play();
@@ -525,23 +533,26 @@ export default class {
       document.title = `${this._currentTrack.name} · ${this._currentTrack.ar[0].name} - YesPlayMusic`;
     }
     // this._playDiscordPresence(this._currentTrack, this.seek()); 先不考虑electron的
-    if (store.getState().state.lastfm.key !== undefined) {
-      trackUpdateNowPlaying({
-        artist: this.currentTrack.ar[0].name,
-        track: this.currentTrack.name,
-        album: this.currentTrack.al.name,
-        trackNumber: this.currentTrack.no,
-        duration: ~~(this.currentTrack.dt / 1000),
-      });
-    }
+    // if (store.getState().state.lastfm.key !== undefined) {
+    //   trackUpdateNowPlaying({
+    //     artist: this.currentTrack.ar[0].name,
+    //     track: this.currentTrack.name,
+    //     album: this.currentTrack.al.name,
+    //     trackNumber: this.currentTrack.no,
+    //     duration: ~~(this.currentTrack.dt / 1000),
+    //   });
+    // }
   }
+
   playOrPause() {
     if (this._howler?.playing()) {
       this.pause();
     } else {
       this.play();
     }
+    this.store.dispatch(updatePlayer(thePlayer3));
   }
+
   seek(time = null) {
     if (time !== null) {
       this._howler?.seek(time);

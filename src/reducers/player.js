@@ -3,6 +3,8 @@ import pkg from '../../package.json';
 import updateApp from '../utils/updateApp';
 import thePlayer from '../utils/player'
 
+import { updatePlayer } from '../action';
+
 if (localStorage.getItem('appVersion') === null) {
   localStorage.setItem('settings', JSON.stringify(initLocalStorage.settings));
   localStorage.setItem('data', JSON.stringify(initLocalStorage.data));
@@ -11,10 +13,9 @@ if (localStorage.getItem('appVersion') === null) {
 
 updateApp();
 
-let thePlayer2 = new thePlayer();
-let thePlayer3 = new Proxy(thePlayer2, {
+export let thePlayer2 = new thePlayer();
+export let thePlayer3 = new Proxy(thePlayer2, {
   set(target, prop, val) {
-    // console.log({ prop, val });
     target[prop] = val;
     if (prop === '_howler') return true;
     target.saveSelfToLocalStorage();
@@ -25,12 +26,13 @@ let thePlayer3 = new Proxy(thePlayer2, {
 
 const player = (state = thePlayer3, action) => {
   switch (action.type) {
-    case 'ADD_TODO':
-      return {
-        ...state,
+    case 'UPDATE_PLAYER':
+      {
+        return {instance: state.instance};
       }
+      
     default:
-      return state
+      return {instance: state}
   }
 }
 

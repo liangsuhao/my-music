@@ -1,5 +1,5 @@
 .PicBlock {
-  
+  border-radius: none;
 }
 .coverContainer {
   position: relative;
@@ -42,4 +42,9 @@
     user-select: none;
     border: 1px solid rgba( 0, 0, 0, 0.4);
   }
+}
+
+.atristBlock {
+  border-radius: 50%;
+  overflow: hidden;
 }

@@ -3,8 +3,9 @@ import style from './PicRow.module.scss'
 import PicBlock from '../PicBlock/PicBlock'
 
 const PicRow = (props) => {
+  const { type, columnNumber=5 } = props;
+
   const [playButtonSize,setPlayButtonSize] = useState(props.playButtonSize ? props.playButtonSize : 22);
-  const columnNumber = props.columnNumber ? props.columnNumber : 5;
   const gap = props.gap ? props.gap : "44px 24px";
 
   const getImageUrl = (item) => {  //这个方式直接套用，应该是调用网易云的接口获取头像之类的
@@ -24,9 +25,9 @@ const PicRow = (props) => {
     <div className={style.picRow} style={{"gridTemplateColumns":`repeat(${columnNumber}, 1fr)`,"gap":gap}}>
       {
         props.items && props.items.map((item,key)=>
-          <div key={key}>
-            <PicBlock id={item.id} imageUrl={getImageUrl(item)} type={props.type} playButtonSize={props.type === 'artist' ? 26 : playButtonSize}/>
-            <span>{item.name}</span>
+          <div key={key} className={style.text}>
+            <PicBlock id={item.id} imageUrl={getImageUrl(item)} type={type} playButtonSize={props.type === 'artist' ? 26 : playButtonSize}/>
+            <div className={style.title}>{item.name}</div>
           </div>
         )
       }

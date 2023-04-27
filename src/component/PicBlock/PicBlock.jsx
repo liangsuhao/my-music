@@ -16,8 +16,10 @@ let PicBlock = (props) => {
   const [focus,setFocus] = useState(false);
   const [clickCoverToPlay,setClickCoverToPlay] = useState(props.coverHover ? true : false);
 
+  const { type } = props;
+
   const play = () => {
-    const player = props.player;
+    const player = props.player.instance;
     const playActions = {
       album: player.playAlbumByID,
       playlist: player.playPlaylistByID,
@@ -30,14 +32,25 @@ let PicBlock = (props) => {
     
   }
 
+  const getStyle = () => {
+    let typeStr = type==='artist' ? style.atristBlock : '';
+    let coverHoverStr = coverHover ? "coverHover" : "";
+    return `${style.PicBlock} ${typeStr} ${coverHoverStr}`
+  }
+
   return (
-    <div className={style.PicBlock} className={coverHover ? "coverHover" : ""} onClick={() => {clickCoverToPlay ? play(): goTo()}} onMouseOver={()=>setFocus(true)} onMouseLeave={()=>setFocus(false)}>
+    <div 
+      className={getStyle()} 
+      onClick={() => {clickCoverToPlay ? play(): goTo()}} 
+      onMouseOver={()=>setFocus(true)} 
+      onMouseLeave={()=>setFocus(false)}
+    >
       <div className={style.coverContainer}>
         <div className="shadow">
           {
-            focus && 
+            // focus && 
             <button onClick={play} className="playButton">
-              <SvgIcon iconClass="play" width="24px" height='24px' />
+              <SvgIcon iconClass="play" width="18px" height='18px' />
             </button>
           }
         </div>

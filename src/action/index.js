@@ -1,4 +1,16 @@
 let nextTodoId = 0
+export const updatePlayer = (newPlayer) => {
+  return {
+    type: 'UPDATE_PLAYER',
+    newPlayer
+  }
+}
+
+export const getDailyTracks = () => {
+  return {
+    type: 'GET_DAILY_TRACKS',
+  }
+}
 export const addTodo = text => {
   return {
     type: 'ADD_TODO',
